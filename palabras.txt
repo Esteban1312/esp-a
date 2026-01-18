@@ -1,0 +1,653 @@
+Desierto
+Selva
+Bosque
+Playa
+Montaña
+Volcán
+Lago
+Río
+Cascada
+Cueva
+Glaciar
+Tundra
+Sabana
+Pantano
+Pradera
+Acantilado
+Valle
+Cañón
+Isla
+Archipiélago
+Océano
+Mar
+Arrecife
+Iceberg
+Colina
+Meseta
+Delta
+Manglar
+Jungla
+Cordillera
+Duna
+Estepa
+Páramo
+Humedal
+Amanecer
+Atardecer
+Aldea
+Pueblo
+Ciudad
+Metropolis
+Barrio
+Mercado
+Plaza
+Parque
+Cementerio
+Puerto
+Muelle
+Estación
+Terminal
+Aeropuerto
+Autopista
+Puente
+Túnel
+Carretera
+Callejón
+Biblioteca
+Museo
+Universidad
+Escuela
+Hospital
+Clínica
+Templo
+Iglesia
+Monasterio
+Catedral
+Castillo
+Fortaleza
+Muralla
+Ruinas
+Pirámide
+Santuario
+Palacio
+Teatro
+Cine
+Estadio
+Cancha
+Gimnasio
+Restaurante
+Cafetería
+Bar
+Hotel
+Hostal
+Cabaña
+Granja
+Rancho
+Molino
+Fábrica
+Laboratorio
+Base
+Cuartel
+Búnker
+Mansión
+Departamentos
+Rascacielos
+Oficina
+Banco
+Comisaría
+Prisión
+Juzgado
+Mercado Central
+Centro Comercial
+Bosque Nevado
+Isla Tropical
+Cueva Subterránea
+Acantilado Marino
+Pueblo Costero
+Desierto Congelado
+Valle Florido
+Montaña Escarpada
+Cascada Oculta
+Río de Lava
+Bosque Encantado
+Templo Antiguo
+Ruinas Olvidadas
+Santuario Perdido
+Isla Misteriosa
+Ciudad Fantasma
+Mina Abandonada
+Aldea Vikinga
+Faro
+Puerto Pesquero
+Cerro
+Cordón Montañoso
+Barranco
+Cañaveral
+Plantación
+Huerto
+Arroyo
+Bahía
+Golfo
+Península
+Falla
+Cráter
+Zona Rocosa
+Costa
+Bosque de Pinos
+Bosque de Robles
+Parque Industrial
+Zona Rural
+Zona Urbana
+Suburbios
+Centro Histórico
+Distrito Financiero
+Barrio Antiguo
+Mercado Nocturno
+Puesto Callejero
+Mirador
+Jardín Botánico
+Invernadero
+Estación de Tren
+Estación de Bus
+Muelle Viejo
+Puerto Comercial
+Parque Acuático
+Zoológico
+Acuario
+Planetario
+Observatorio
+Laboratorio Subterráneo
+Base Militar
+Campamento
+Campamento de Montaña
+Campamento en el Bosque
+Mansión Abandonada
+Finca
+Viñedo
+Bosque Lluvioso
+Reserva Natural
+Refugio
+Casa de Campo
+Camino Rural
+Sendero de Montaña
+Carretera Costera
+Isla Deshabitada
+Pueblo de Montaña
+Ciudad Portuaria
+Ciudad Amurallada
+Isla Helada
+Páramo Alto
+Ciénaga
+Desierto de Sal
+Cataratas
+Laguna
+Risco
+Playa Rocosa
+Playón
+Bahía Escondida
+Cueva Marina
+Tómbolo
+Atolón
+Marisma
+Manglares Oscuros
+Oasis
+Oasis Escondido
+Pantano Profundo
+Ciénega
+Desierto Rojo
+Desierto Blanco
+Bosque Oscuro
+Bosque Luminoso
+Nevado
+Cumbre
+Subterráneo
+Metrópolis
+Mega Ciudad
+Pueblo Lejano
+Campamento Minero
+Base Científica
+Isla Volcánica
+Cueva de Cristal
+Cueva Helada
+Cueva Profunda
+Bosque Petrificado
+Meseta Alta
+Terraplén
+Plaza Central
+Paseo Peatonal
+Jardín Zen
+Parque Natural
+Reserva Animal
+Refugio de Montaña
+Puesto Fronterizo
+Frontera
+Catarata Gigante
+Garganta del Río
+Barranco Profundo
+Ladera Rocosa
+Mirador Natural
+Puerto de Montaña
+Puente Colgante
+Isla de Piedra
+Valle Nevado
+Valle Verde
+Parque Nacional
+Bosque de Niebla
+Cueva de Murciélagos
+Cueva de Hielo
+Cueva de Lava
+Fortaleza Antigua
+Castillo Medieval
+Ciudadela
+Ciudad Alta
+Distrito Antiguo
+Distrito Moderno
+Zona Prohibida
+Territorio Salvaje
+Buenos Aires
+Córdoba
+Rosario
+La Plata
+Mar del Plata
+Mendoza
+San Miguel de Tucumán
+Salta
+Santa Fe
+Resistencia
+Posadas
+Neuquén
+Bariloche
+Ushuaia
+Río Gallegos
+San Juan
+San Luis
+Bahía Blanca
+Tandil
+Santiago
+Valparaíso
+Concepción
+La Serena
+Montevideo
+Punta del Este
+Asunción
+Ciudad del Este
+São Paulo
+Río de Janeiro
+Brasilia
+Salvador
+Fortaleza
+Recife
+Curitiba
+Porto Alegre
+Lima
+Arequipa
+Cusco
+Trujillo
+Bogotá
+Medellín
+Cali
+Barranquilla
+Quito
+Guayaquil
+Caracas
+Maracaibo
+Ciudad de México
+Guadalajara
+Monterrey
+Puebla
+Tijuana
+Cancún
+Mérida
+Acapulco
+Nueva York
+Los Ángeles
+Chicago
+Houston
+Phoenix
+San Francisco
+Miami
+Seattle
+San Diego
+Dallas
+Boston
+Philadelphia
+Atlanta
+Las Vegas
+Washington D. C.
+Orlando
+Detroit
+Denver
+Toronto
+Vancouver
+Montreal
+Ottawa
+Calgary
+Londres
+Manchester
+Liverpool
+Edimburgo
+París
+Marsella
+Lyon
+Toulouse
+Niza
+Madrid
+Barcelona
+Valencia
+Sevilla
+Bilbao
+Zaragoza
+Málaga
+Granada
+Roma
+Milán
+Nápoles
+Turín
+Florencia
+Venecia
+Berlín
+Hamburgo
+Múnich
+Frankfurt
+Colonia
+Stuttgart
+Ámsterdam
+Róterdam
+La Haya
+Bruselas
+Amberes
+Gante
+Lisboa
+Oporto
+Zúrich
+Ginebra
+Basilea
+Viena
+Salzburgo
+Praga
+Varsovia
+Cracovia
+Budapest
+Bucarest
+Sofía
+Belgrado
+Atenas
+Tesalónica
+Moscú
+San Petersburgo
+Kiev
+Odessa
+Estambul
+Ankara
+Esmirna
+Dubái
+Abu Dabi
+Riad
+Doha
+Tokio
+Osaka
+Kioto
+Yokohama
+Nagoya
+Sapporo
+Seúl
+Busan
+Pekín
+Shanghái
+Hong Kong
+Guangzhou
+Shenzhen
+Chengdu
+Wuhan
+Taipéi
+Singapur
+Bangkok
+Phuket
+Hanói
+Ho Chi Minh
+Nueva Delhi
+Bombay
+Calcuta
+Bangalore
+Hyderabad
+Yakarta
+Bali
+Sídney
+Melbourne
+Brisbane
+Perth
+Auckland
+Wellington
+El Cairo
+Alejandría
+Casablanca
+Marrakech
+Johannesburgo
+Ciudad del Cabo
+Durban
+Nairobi
+Lagos
+Accra
+Addis Abeba
+Argentina
+Brasil
+Uruguay
+Paraguay
+Chile
+Bolivia
+Perú
+Ecuador
+Colombia
+Venezuela
+Guyana
+Surinam
+Estados Unidos
+Canadá
+México
+Belice
+Guatemala
+Honduras
+El Salvador
+Nicaragua
+Costa Rica
+Panamá
+Cuba
+República Dominicana
+Haití
+Jamaica
+España
+Portugal
+Francia
+Alemania
+Italia
+Reino Unido
+Irlanda
+Países Bajos
+Bélgica
+Luxemburgo
+Suiza
+Austria
+Dinamarca
+Noruega
+Suecia
+Finlandia
+Islandia
+Polonia
+República Checa
+Eslovaquia
+Hungría
+Rumania
+Bulgaria
+Grecia
+Turquía
+Serbia
+Croacia
+Bosnia y Herzegovina
+Eslovenia
+Montenegro
+Albania
+Macedonia del Norte
+Lituania
+Letonia
+Estonia
+Ucrania
+Bielorrusia
+Rusia
+China
+Japón
+Corea del Sur
+Corea del Norte
+Mongolia
+India
+Pakistán
+Bangladés
+Sri Lanka
+Nepal
+Bután
+Maldivas
+Arabia Saudita
+Israel
+Palestina
+Jordania
+Líbano
+Siria
+Irak
+Irán
+Kuwait
+Catar
+Emiratos Árabes Unidos
+Omán
+Yemen
+Egipto
+Marruecos
+Argelia
+Túnez
+Libia
+Sudán
+Sudán del Sur
+Etiopía
+Eritrea
+Yibuti
+Somalia
+Kenia
+Uganda
+Ruanda
+Burundi
+Tanzania
+República Democrática del Congo
+Congo
+Angola
+Zambia
+Malaui
+Mozambique
+Zimbabue
+Botsuana
+Namibia
+Sudáfrica
+Lesoto
+Esuatini
+Madagascar
+Australia
+Nueva Zelanda
+Papúa Nueva Guinea
+Fiyi
+Samoa
+Tonga
+Vanuatu
+Islas Salomón
+Kiribati
+Micronesia
+Islas Marshall
+Palaos
+Nauru
+Tailandia
+Vietnam
+Laos
+Camboya
+Malasia
+Singapur
+Indonesia
+Filipinas
+Birmania (Myanmar)
+Brunéi
+Timor Oriental
+Kazajistán
+Uzbekistán
+Turkmenistán
+Kirguistán
+Tayikistán
+Azerbaiyán
+Armenia
+Georgia
+Afganistán
+Chipre
+Qatar
+Bahréin
+Sol
+Luna
+Marte
+Venus
+Mercurio
+Júpiter
+Saturno
+Urano
+Neptuno
+Plutón
+Tierra
+ÓrbitaTerrestre
+EstaciónEspacialInternacional
+CinturónDeAsteroides
+CinturónDeKuiper
+NubeDeOort
+VíaLáctea
+Andrómeda
+GalaxiaDelTriángulo
+GranNubeDeMagallanes
+PequeñaNubeDeMagallanes
+CentroGaláctico
+AgujeroNegroSupermasivo
+AlphaCentauri
+ProximaCentauri
+Sirius
+Betelgeuse
+Rigel
+Vega
+Altair
+Polaris
+ConstelaciónDeOrión
+ConstelaciónDeEscorpio
+ConstelaciónDeLibra
+ConstelaciónDeAcuario
+ConstelaciónDeLeo
+ConstelaciónDeTauro
+ConstelaciónDeVirgo
+NebulosaDeOrión
+NebulosaDelCangrejo
+NebulosaDeLaHélice
+NebulosaDeLaMariposa
+NebulosaDeCarina
+NebulosaCabezaDeCaballo
+AgujeroNegro
+Supernova
+Cuásar
+Púlsar
+EnanaBlanca
+EnanaRoja
+EstrellaDeNeutrones
+SistemaSolar
+SistemaTrappist1
+ExoplanetaKepler452b
+ExoplanetaGliese581g
+CometaHalley
+CometaHaleBopp
+AsteroideBennu
+AsteroideApophis
+EspacioProfundo
+VacíoInterestelar
+NúcleoEstelar
+DiscoProtoplanetario
+Universo
+Multiverso
+HuecoCósmico
+SupercúmuloDeVirgo
+SupercúmuloLaniakea
