@@ -32,9 +32,7 @@
   <label>Jugadores: </label>
   <input type="number" id="players" min="2" value="4" />
   <br /><br />
-  <label>Palabra secreta: </label>
-  <input type="text" id="secret" placeholder="Ej: Manzana" />
-  <br /><br />
+
   <button onclick="startGame()">Comenzar</button>
 
   <div id="card">
@@ -90,7 +88,8 @@
 
     function toggleWord() {
       if (!showing) {
-        document.getElementById('word').innerText = (currentPlayer === impostor) ? 'IMPOSTOR' : secretWord;
+        document.getElementById('word').innerText = 
+          (currentPlayer === impostor) ? 'IMPOSTOR' : secretWord;
         document.getElementById('toggleBtn').innerText = 'Ocultar';
         showing = true;
       } else {
@@ -112,6 +111,7 @@
   </script>
 </body>
 </html>
+
 
       loadPlayer();
     }
