@@ -45,10 +45,14 @@
   </div>
 
   <script>
-    const wordBank = [
-      "Manzana","Perro","Computadora","Montaña","Río","Fútbol","Chocolate","Cine","Avión","Playa",
-      "Pizza","Lluvia","Sol","Amistad","Clave","Bosque","Guitarra","Ventana","Helado","Libro"
-    ];
+    let wordBank = [];
+
+    // Cargar palabras desde palabras.txt
+    fetch('palabras.txt')
+      .then(r => r.text())
+      .then(t => {
+        wordBank = t.split('\n').map(w => w.trim()).filter(w => w.length > 0);
+      });
 
     let totalPlayers = 0;
     let secretWord = "";
@@ -57,37 +61,41 @@
     let showing = false;
 
     function startGame() {
-      totalPlayers = parseInt(document.getElementById("players").value);
+      totalPlayers = parseInt(document.getElementById('players').value);
 
-      // Elegir palabra aleatoria del banco
+      if (wordBank.length === 0) {
+        alert('El archivo palabras.txt está vacío o no se cargó.');
+        return;
+      }
+
       secretWord = wordBank[Math.floor(Math.random() * wordBank.length)];
 
       if (totalPlayers < 2) {
-        alert("Completa los datos correctamente.");
+        alert('Completa los datos correctamente.');
         return;
       }
 
       currentPlayer = 1;
       impostor = Math.floor(Math.random() * totalPlayers) + 1;
-      document.getElementById("card").style.display = "block";
+      document.getElementById('card').style.display = 'block';
       loadPlayer();
     }
 
     function loadPlayer() {
-      document.getElementById("playerInfo").innerText = "Jugador " + currentPlayer;
-      document.getElementById("word").innerText = "";
+      document.getElementById('playerInfo').innerText = 'Jugador ' + currentPlayer;
+      document.getElementById('word').innerText = '';
       showing = false;
-      document.getElementById("toggleBtn").innerText = "Ver palabra";
+      document.getElementById('toggleBtn').innerText = 'Ver palabra';
     }
 
     function toggleWord() {
       if (!showing) {
-        document.getElementById("word").innerText = (currentPlayer === impostor) ? "IMPOSTOR" : secretWord;
-        document.getElementById("toggleBtn").innerText = "Ocultar";
+        document.getElementById('word').innerText = (currentPlayer === impostor) ? 'IMPOSTOR' : secretWord;
+        document.getElementById('toggleBtn').innerText = 'Ocultar';
         showing = true;
       } else {
-        document.getElementById("word").innerText = "";
-        document.getElementById("toggleBtn").innerText = "Ver palabra";
+        document.getElementById('word').innerText = '';
+        document.getElementById('toggleBtn').innerText = 'Ver palabra';
         showing = false;
       }
     }
@@ -95,10 +103,16 @@
     function nextPlayer() {
       currentPlayer++;
       if (currentPlayer > totalPlayers) {
-        alert("¡Todos vieron su rol! Que comience el juego.");
-        document.getElementById("card").style.display = "none";
+        alert('¡Todos vieron su rol! Que comience el juego.');
+        document.getElementById('card').style.display = 'none';
         return;
       }
+      loadPlayer();
+    }
+  </script>
+</body>
+</html>
+
       loadPlayer();
     }
   </script>
