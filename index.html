@@ -116,14 +116,17 @@
 </head>
 <body>
 
-  <!-- Imagen de portada -->
-  <img id="portada" src="portada.png" alt="Portada del juego">
+  <img id="portada" src="portada.jpg" alt="Portada del juego">
 
   <h1>Espía: Versión lugares</h1>
 
   <div class="panel">
     <label style="font-size:20px;">Cantidad de jugadores:</label>
     <input type="number" id="players" min="2" value="4" />
+
+    <label style="font-size:20px; margin-top:15px;">Cantidad de espías:</label>
+    <input type="number" id="spies" min="1" value="1" />
+
     <button onclick="startGame()">Comenzar</button>
   </div>
 
@@ -134,7 +137,6 @@
     <button onclick="nextPlayer()">Siguiente jugador</button>
   </div>
 
-  <!-- Ventana final -->
   <div id="finalPopup">
     <div class="finalBox">
       <h2>🎉 Juego finalizado</h2>
@@ -145,7 +147,6 @@
 
   <script>
     let wordBank = [];
-
     fetch('palabras.txt')
       .then(r => r.text())
       .then(t => {
@@ -153,28 +154,34 @@
       });
 
     let totalPlayers = 0;
+    let numSpies = 1;
+    let spiesList = [];
     let secretWord = "";
     let currentPlayer = 0;
-    let impostor = 0;
     let showing = false;
 
     function startGame() {
       totalPlayers = parseInt(document.getElementById('players').value);
+      numSpies = parseInt(document.getElementById('spies').value);
 
       if (wordBank.length === 0) {
         alert('El archivo palabras.txt está vacío o no se cargó.');
         return;
       }
 
-      secretWord = wordBank[Math.floor(Math.random() * wordBank.length)];
-
-      if (totalPlayers < 2) {
-        alert('Completa los datos correctamente.');
+      if (numSpies >= totalPlayers) {
+        alert("Los espías deben ser menos que los jugadores.");
         return;
       }
 
+      secretWord = wordBank[Math.floor(Math.random() * wordBank.length)];
       currentPlayer = 1;
-      impostor = Math.floor(Math.random() * totalPlayers) + 1;
+
+      spiesList = [];
+      while (spiesList.length < numSpies) {
+        let r = Math.floor(Math.random() * totalPlayers) + 1;
+        if (!spiesList.includes(r)) spiesList.push(r);
+      }
 
       document.getElementById('card').style.display = 'block';
       loadPlayer();
@@ -190,7 +197,7 @@
     function toggleWord() {
       if (!showing) {
         document.getElementById('word').innerText =
-          (currentPlayer === impostor) ? 'ESPÍA' : secretWord;
+          (spiesList.includes(currentPlayer)) ? 'ESPÍA' : secretWord;
         document.getElementById('toggleBtn').innerText = 'Ocultar';
         showing = true;
       } else {
@@ -213,13 +220,8 @@
     function restartGame() {
       document.getElementById('finalPopup').style.display = 'none';
       document.getElementById('card').style.display = 'none';
-      document.getElementById('players').value = 4;
     }
   </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
