@@ -320,8 +320,6 @@ Denver
 Toronto
 Vancouver
 Montreal
-Ottawa
-Calgary
 Londres
 Manchester
 Liverpool
@@ -353,10 +351,7 @@ Colonia
 Stuttgart
 Ámsterdam
 Róterdam
-La Haya
 Bruselas
-Amberes
-Gante
 Lisboa
 Oporto
 Zúrich
@@ -376,9 +371,7 @@ Tesalónica
 Moscú
 San Petersburgo
 Kiev
-Odessa
 Estambul
-Ankara
 Esmirna
 Dubái
 Abu Dabi
@@ -399,36 +392,13 @@ Guangzhou
 Shenzhen
 Chengdu
 Wuhan
-Taipéi
 Singapur
 Bangkok
-Phuket
-Hanói
-Ho Chi Minh
 Nueva Delhi
-Bombay
-Calcuta
-Bangalore
-Hyderabad
 Yakarta
-Bali
 Sídney
-Melbourne
-Brisbane
-Perth
-Auckland
-Wellington
 El Cairo
 Alejandría
-Casablanca
-Marrakech
-Johannesburgo
-Ciudad del Cabo
-Durban
-Nairobi
-Lagos
-Accra
-Addis Abeba
 Argentina
 Brasil
 Uruguay
@@ -500,11 +470,7 @@ Corea del Norte
 Mongolia
 India
 Pakistán
-Bangladés
-Sri Lanka
 Nepal
-Bután
-Maldivas
 Arabia Saudita
 Israel
 Palestina
@@ -526,13 +492,8 @@ Libia
 Sudán
 Sudán del Sur
 Etiopía
-Eritrea
-Yibuti
-Somalia
 Kenia
 Uganda
-Ruanda
-Burundi
 Tanzania
 República Democrática del Congo
 Congo
@@ -541,25 +502,15 @@ Zambia
 Malaui
 Mozambique
 Zimbabue
-Botsuana
 Namibia
 Sudáfrica
-Lesoto
-Esuatini
 Madagascar
 Australia
 Nueva Zelanda
 Papúa Nueva Guinea
-Fiyi
-Samoa
-Tonga
-Vanuatu
 Islas Salomón
-Kiribati
 Micronesia
-Islas Marshall
 Palaos
-Nauru
 Tailandia
 Vietnam
 Laos
@@ -569,7 +520,6 @@ Singapur
 Indonesia
 Filipinas
 Birmania (Myanmar)
-Brunéi
 Timor Oriental
 Kazajistán
 Uzbekistán
@@ -582,7 +532,6 @@ Georgia
 Afganistán
 Chipre
 Qatar
-Bahréin
 Sol
 Luna
 Marte
