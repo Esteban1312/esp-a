@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego del Impostor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #card {
+      margin-top: 20px;
+      padding: 20px;
+      border: 2px solid #333;
+      display: none;
+      width: 250px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Juego del Impostor</h1>
+
+  <label>Jugadores: </label>
+  <input type="number" id="players" min="2" value="4" />
+  <br /><br />
+  <label>Palabra secreta: </label>
+  <input type="text" id="secret" placeholder="Ej: Manzana" />
+  <br /><br />
+  <button onclick="startGame()">Comenzar</button>
+
+  <div id="card">
+    <h2 id="playerInfo"></h2>
+    <p id="word" style="font-size:24px; font-weight:bold;"></p>
+    <button onclick="toggleWord()" id="toggleBtn">Ver palabra</button>
+    <button onclick="nextPlayer()">Siguiente jugador</button>
+  </div>
+
+  <script>
+    let totalPlayers = 0;
+    let secretWord = "";
+    let currentPlayer = 0;
+    let impostor = 0;
+    let showing = false;
+
+    function startGame() {
+      totalPlayers = parseInt(document.getElementById("players").value);
+      secretWord = document.getElementById("secret").value.trim();
+      if (!secretWord || totalPlayers < 2) {
+        alert("Completa los datos correctamente.");
+        return;
+      }
+
+      currentPlayer = 1;
+      impostor = Math.floor(Math.random() * totalPlayers) + 1;
+      document.getElementById("card").style.display = "block";
+      loadPlayer();
+    }
+
+    function loadPlayer() {
+      document.getElementById("playerInfo").innerText = "Jugador " + currentPlayer;
+      document.getElementById("word").innerText = "";
+      showing = false;
+      document.getElementById("toggleBtn").innerText = "Ver palabra";
+    }
+
+    function toggleWord() {
+      if (!showing) {
+        document.getElementById("word").innerText = (currentPlayer === impostor) ? "IMPOSTOR" : secretWord;
+        document.getElementById("toggleBtn").innerText = "Ocultar";
+        showing = true;
+      } else {
+        document.getElementById("word").innerText = "";
+        document.getElementById("toggleBtn").innerText = "Ver palabra";
+        showing = false;
+      }
+    }
+
+    function nextPlayer() {
+      currentPlayer++;
+      if (currentPlayer > totalPlayers) {
+        alert("¡Todos vieron su rol! Que comience el juego.");
+        document.getElementById("card").style.display = "none";
+        return;
+      }
+      loadPlayer();
+    }
+  </script>
+</body>
+</html>
