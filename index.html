@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juego del Impostor</title>
+  <title>Espía: Versión lugares</title>
 
   <style>
     body {
@@ -76,11 +76,50 @@
       letter-spacing: 1px;
       text-shadow: 0px 0px 8px black;
     }
+
+    /* Ventana final */
+    #finalPopup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .finalBox {
+      background: white;
+      color: #222;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 280px;
+      font-size: 20px;
+      animation: zoomIn 0.3s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    #portada {
+      width: 220px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>Juego del Impostor</h1>
+  <!-- Imagen de portada -->
+  <img id="portada" src="portada.jpg" alt="Portada del juego">
+
+  <h1>Espía: Versión lugares</h1>
 
   <div class="panel">
     <label style="font-size:20px;">Cantidad de jugadores:</label>
@@ -95,10 +134,18 @@
     <button onclick="nextPlayer()">Siguiente jugador</button>
   </div>
 
+  <!-- Ventana final -->
+  <div id="finalPopup">
+    <div class="finalBox">
+      <h2>🎉 Juego finalizado</h2>
+      <p>¡Todos vieron su rol!</p>
+      <button onclick="restartGame()">Nueva ronda</button>
+    </div>
+  </div>
+
   <script>
     let wordBank = [];
 
-    // Cargar palabras desde palabras.txt
     fetch('palabras.txt')
       .then(r => r.text())
       .then(t => {
@@ -128,6 +175,7 @@
 
       currentPlayer = 1;
       impostor = Math.floor(Math.random() * totalPlayers) + 1;
+
       document.getElementById('card').style.display = 'block';
       loadPlayer();
     }
@@ -142,7 +190,7 @@
     function toggleWord() {
       if (!showing) {
         document.getElementById('word').innerText =
-          (currentPlayer === impostor) ? 'IMPOSTOR' : secretWord;
+          (currentPlayer === impostor) ? 'ESPÍA' : secretWord;
         document.getElementById('toggleBtn').innerText = 'Ocultar';
         showing = true;
       } else {
@@ -155,13 +203,23 @@
     function nextPlayer() {
       currentPlayer++;
       if (currentPlayer > totalPlayers) {
-        alert('¡Todos vieron su rol! Que comience el juego.');
         document.getElementById('card').style.display = 'none';
+        document.getElementById('finalPopup').style.display = 'flex';
         return;
       }
       loadPlayer();
     }
+
+    function restartGame() {
+      document.getElementById('finalPopup').style.display = 'none';
+      document.getElementById('card').style.display = 'none';
+      document.getElementById('players').value = 4;
+    }
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
