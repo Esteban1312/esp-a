@@ -45,6 +45,11 @@
   </div>
 
   <script>
+    const wordBank = [
+      "Manzana","Perro","Computadora","Montaña","Río","Fútbol","Chocolate","Cine","Avión","Playa",
+      "Pizza","Lluvia","Sol","Amistad","Clave","Bosque","Guitarra","Ventana","Helado","Libro"
+    ];
+
     let totalPlayers = 0;
     let secretWord = "";
     let currentPlayer = 0;
@@ -53,8 +58,11 @@
 
     function startGame() {
       totalPlayers = parseInt(document.getElementById("players").value);
-      secretWord = document.getElementById("secret").value.trim();
-      if (!secretWord || totalPlayers < 2) {
+
+      // Elegir palabra aleatoria del banco
+      secretWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+
+      if (totalPlayers < 2) {
         alert("Completa los datos correctamente.");
         return;
       }
