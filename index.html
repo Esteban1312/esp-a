@@ -1,227 +1,209 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Espía: Versión lugares</title>
-
-  <style>
+<meta charset="UTF-8">
+<title>Espía: Versión Lugares</title>
+<style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #2b5876, #4e4376);
-      height: 100vh;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    /* Banner */
+    #banner {
+        width: 100%;
+        max-height: 260px;
+        object-fit: cover;
+        display: block;
     }
 
     h1 {
-      margin-top: 10px;
-      font-size: 36px;
-      text-shadow: 0 0 10px #000;
+        margin-top: 10px;
+        font-size: 32px;
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      padding: 25px;
-      border-radius: 15px;
-      margin-top: 20px;
-      width: 300px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      transition: 0.3s ease;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      text-align: center;
-      background: rgba(255,255,255,0.8);
+        background: white;
+        padding: 20px;
+        width: 360px;
+        margin: 10px auto;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #aaa;
     }
 
     button {
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #ffce00;
-      font-weight: bold;
-      transition: transform 0.2s ease, background 0.2s;
+        padding: 12px 20px;
+        font-size: 17px;
+        background: #3498db;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px;
     }
-
-    button:hover {
-      transform: scale(1.05);
-      background: #ffe357;
-    }
+    button:hover { background: #2980b9; }
 
     #card {
-      display: none;
-      margin-top: 25px;
+        display: none;
     }
 
-    #word {
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 15px;
-      letter-spacing: 1px;
-      text-shadow: 0px 0px 8px black;
+    .spy-icon {
+        font-size: 40px;
     }
 
-    /* Ventana final */
-    #finalPopup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      justify-content: center;
-      align-items: center;
+    /* Popup final */
+    #popup {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
     }
-
-    .finalBox {
-      background: white;
-      color: #222;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      width: 280px;
-      font-size: 20px;
-      animation: zoomIn 0.3s ease;
+    #popup .contenido {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 0 20px #222;
     }
-
-    @keyframes zoomIn {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    #portada {
-      width: 220px;
-      border-radius: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    }
-
-  </style>
+</style>
 </head>
 <body>
 
-  <img id="portada" src="portada.jpg" alt="Portada del juego">
+<!-- Banner -->
+<img id="banner" src="banner.jpg">
 
-  <h1>Espía: Versión lugares</h1>
+<h1>Espía: Versión Lugares</h1>
 
-  <div class="panel">
-    <label style="font-size:20px;">Cantidad de jugadores:</label>
-    <input type="number" id="players" min="2" value="4" />
+<!-- Panel de inicio -->
+<div class="panel" id="config">
+    <label><b>Jugadores:</b></label>
+    <input type="number" id="jugadores" min="3" value="5">
+    <br><br>
 
-    <label style="font-size:20px; margin-top:15px;">Cantidad de espías:</label>
-    <input type="number" id="spies" min="1" value="1" />
+    <label><b>Espías:</b></label>
+    <input type="number" id="espias" min="1" value="1">
+    <br><br>
 
-    <button onclick="startGame()">Comenzar</button>
-  </div>
+    <button onclick="iniciarJuego()">Iniciar ronda</button>
+</div>
 
-  <div id="card" class="panel">
+<!-- Panel de cartas individuales -->
+<div class="panel" id="card">
     <h2 id="playerInfo"></h2>
-    <p id="word"></p>
-    <button onclick="toggleWord()" id="toggleBtn">Ver palabra</button>
+    <p id="roleText" style="font-size:24px; font-weight:bold;"></p>
+    <button id="toggleBtn" onclick="toggleRole()">Ver rol</button>
     <button onclick="nextPlayer()">Siguiente jugador</button>
-  </div>
+</div>
 
-  <div id="finalPopup">
-    <div class="finalBox">
-      <h2>🎉 Juego finalizado</h2>
-      <p>¡Todos vieron su rol!</p>
-      <button onclick="restartGame()">Nueva ronda</button>
+<!-- Popup final -->
+<div id="popup">
+    <div class="contenido">
+        <h2>Juego finalizado</h2>
+        <button onclick="cerrarPopup()">Nueva ronda</button>
     </div>
-  </div>
+</div>
 
-  <script>
-    let wordBank = [];
-    fetch('palabras.txt')
-      .then(r => r.text())
-      .then(t => {
-        wordBank = t.split('\n').map(w => w.trim()).filter(w => w.length > 0);
-      });
+<script>
+let lugares = [];
 
-    let totalPlayers = 0;
-    let numSpies = 1;
-    let spiesList = [];
-    let secretWord = "";
-    let currentPlayer = 0;
-    let showing = false;
+fetch("palabras.txt")
+    .then(r => r.text())
+    .then(t => {
+        lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
+    });
 
-    function startGame() {
-      totalPlayers = parseInt(document.getElementById('players').value);
-      numSpies = parseInt(document.getElementById('spies').value);
+let totalPlayers = 0;
+let spies = 0;
+let secretWord = "";
+let playerRoles = [];  
+let currentPlayer = 1;
+let showing = false;
 
-      if (wordBank.length === 0) {
-        alert('El archivo palabras.txt está vacío o no se cargó.');
-        return;
-      }
+function iniciarJuego() {
+    totalPlayers = parseInt(document.getElementById("jugadores").value);
+    spies = parseInt(document.getElementById("espias").value);
 
-      if (numSpies >= totalPlayers) {
+    if (spies >= totalPlayers) {
         alert("Los espías deben ser menos que los jugadores.");
         return;
-      }
-
-      secretWord = wordBank[Math.floor(Math.random() * wordBank.length)];
-      currentPlayer = 1;
-
-      spiesList = [];
-      while (spiesList.length < numSpies) {
-        let r = Math.floor(Math.random() * totalPlayers) + 1;
-        if (!spiesList.includes(r)) spiesList.push(r);
-      }
-
-      document.getElementById('card').style.display = 'block';
-      loadPlayer();
     }
 
-    function loadPlayer() {
-      document.getElementById('playerInfo').innerText = 'Jugador ' + currentPlayer;
-      document.getElementById('word').innerText = '';
-      showing = false;
-      document.getElementById('toggleBtn').innerText = 'Ver palabra';
-    }
-
-    function toggleWord() {
-      if (!showing) {
-        document.getElementById('word').innerText =
-          (spiesList.includes(currentPlayer)) ? 'ESPÍA' : secretWord;
-        document.getElementById('toggleBtn').innerText = 'Ocultar';
-        showing = true;
-      } else {
-        document.getElementById('word').innerText = '';
-        document.getElementById('toggleBtn').innerText = 'Ver palabra';
-        showing = false;
-      }
-    }
-
-    function nextPlayer() {
-      currentPlayer++;
-      if (currentPlayer > totalPlayers) {
-        document.getElementById('card').style.display = 'none';
-        document.getElementById('finalPopup').style.display = 'flex';
+    if (lugares.length === 0) {
+        alert("Error: palabras.txt está vacío o no se cargó.");
         return;
-      }
-      loadPlayer();
     }
 
-    function restartGame() {
-      document.getElementById('finalPopup').style.display = 'none';
-      document.getElementById('card').style.display = 'none';
+    // Elegir palabra
+    secretWord = lugares[Math.floor(Math.random() * lugares.length)];
+
+    // Asignar espías
+    playerRoles = Array(totalPlayers).fill("Ciudadano");
+
+    let espiasAsignados = 0;
+    while (espiasAsignados < spies) {
+        let idx = Math.floor(Math.random() * totalPlayers);
+        if (playerRoles[idx] === "Ciudadano") {
+            playerRoles[idx] = "Espía";
+            espiasAsignados++;
+        }
     }
-  </script>
+
+    currentPlayer = 1;
+    showing = false;
+
+    document.getElementById("config").style.display = "none";
+    document.getElementById("card").style.display = "block";
+
+    updateCard();
+}
+
+function updateCard() {
+    document.getElementById("playerInfo").innerText = "Jugador " + currentPlayer;
+    document.getElementById("roleText").innerText = "";
+    document.getElementById("toggleBtn").innerText = "Ver rol";
+    showing = false;
+}
+
+function toggleRole() {
+    if (!showing) {
+        let role = playerRoles[currentPlayer - 1];
+        if (role === "Espía") {
+            document.getElementById("roleText").innerHTML = `<span class="spy-icon">🕵️</span> ESPÍA`;
+        } else {
+            document.getElementById("roleText").innerText = secretWord;
+        }
+        showing = true;
+        document.getElementById("toggleBtn").innerText = "Ocultar";
+    } else {
+        document.getElementById("roleText").innerText = "";
+        showing = false;
+        document.getElementById("toggleBtn").innerText = "Ver rol";
+    }
+}
+
+function nextPlayer() {
+    currentPlayer++;
+    if (currentPlayer > totalPlayers) {
+        document.getElementById("popup").style.display = "flex";
+        return;
+    }
+    updateCard();
+}
+
+function cerrarPopup() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("card").style.display = "none";
+    document.getElementById("config").style.display = "block";
+}
+</script>
 
 </body>
 </html>
+
