@@ -5,7 +5,6 @@
 <title>Espía: Versión Lugares</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fuente moderna -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -18,7 +17,6 @@
         color: #222;
     }
 
-    /* Banner superior */
     #banner {
         width: 100%;
         height: 200px;
@@ -32,15 +30,15 @@
     h1 {
         font-size: 26px;
         font-weight: 600;
-        margin: 20px 0;
+        margin-top: 20px;
     }
 
-    /* Tarjetas minimalistas */
+    /* Contenedores minimalistas */
     .panel {
         background: #ffffff;
         padding: 22px;
         width: 92%;
-        max-width: 400px;
+        max-width: 420px;
         margin: 15px auto;
         border-radius: 16px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.08);
@@ -64,7 +62,6 @@
         background: #fdfdfd;
     }
 
-    /* Botones minimalistas */
     button {
         width: 100%;
         padding: 14px;
@@ -82,15 +79,8 @@
         background: #0d8adf;
     }
 
-    #card { display: none; }
+    .hidden { display: none !important; }
 
-    #playerInfo {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-
-    /* Texto del rol */
     #roleText {
         min-height: 40px;
         margin: 18px 0;
@@ -100,16 +90,14 @@
         transition: opacity 0.25s;
     }
 
-    #roleText.mostrar {
-        opacity: 1;
-    }
+    #roleText.mostrar { opacity: 1; }
 
     .spy-icon {
         font-size: 48px;
         margin-bottom: 8px;
     }
 
-    /* Popup final */
+    /* Popup */
     #popup {
         position: fixed;
         top: 0; left: 0;
@@ -129,154 +117,260 @@
         max-width: 330px;
         text-align: center;
         box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-        animation: popupIn 0.25s ease;
-    }
-
-    @keyframes popupIn {
-        from { transform: scale(0.85); opacity: 0; }
-        to   { transform: scale(1); opacity: 1; }
-    }
-
-    @media (min-height: 750px) {
-        #banner { height: 240px; }
     }
 </style>
 </head>
 
 <body>
 
-<!-- Banner -->
 <img id="banner" src="banner.png">
-
 <h1>Espía: Versión Lugares</h1>
 
-<!-- Panel de configuración -->
-<div class="panel" id="config">
+<!-- MENÚ PRINCIPAL -->
+<div class="panel" id="menu">
+    <button onclick="irRapido()">Modo Rápido</button>
+    <button onclick="irPersonalizado()">Modo Personalizado</button>
+</div>
+
+<!-- MODO RÁPIDO -->
+<div class="panel hidden" id="configRapido">
+    <h2>Modo Rápido</h2>
+
     <label>Jugadores</label>
     <input type="number" id="jugadores" min="3" value="5">
 
     <label>Espías</label>
     <input type="number" id="espias" min="1" value="1">
 
-    <button onclick="iniciarJuego()">Iniciar ronda</button>
+    <button onclick="iniciarJuegoRapido()">Iniciar</button>
+    <button style="background:#aaa" onclick="volverMenu()">Volver</button>
 </div>
 
-<!-- Panel de cartas individuales -->
-<div class="panel" id="card">
+<!-- CARTA RÁPIDA -->
+<div class="panel hidden" id="cardRapido">
     <h2 id="playerInfo"></h2>
     <p id="roleText"></p>
 
-    <button id="toggleBtn" onclick="toggleRole()">Ver rol</button>
-    <button onclick="nextPlayer()">Siguiente jugador</button>
+    <button id="toggleBtn" onclick="toggleRoleRapido()">Ver rol</button>
+    <button onclick="nextPlayerRapido()">Siguiente jugador</button>
 </div>
 
-<!-- Popup final -->
+<!-- MODO PERSONALIZADO -->
+<div class="panel hidden" id="configNombres">
+    <h2>Modo Personalizado</h2>
+
+    <label>Nombre del jugador</label>
+    <input type="text" id="nombreInput">
+
+    <button onclick="agregarNombre()">Agregar jugador</button>
+
+    <ul id="listaNombres" style="text-align:left; margin-top:10px;"></ul>
+
+    <label>Espías</label>
+    <input type="number" id="espiasPersonal" min="1" value="1">
+
+    <button onclick="iniciarJuegoPersonalizado()">Iniciar</button>
+    <button style="background:#aaa" onclick="volverMenu()">Volver</button>
+</div>
+
+<!-- CARTA PERSONALIZADA -->
+<div class="panel hidden" id="cardPersonal">
+    <h2 id="nombreActual"></h2>
+    <p id="roleTextPersonal"></p>
+
+    <button onclick="toggleRolePersonal()">Ver rol</button>
+    <button onclick="nextPlayerPersonal()">Siguiente jugador</button>
+</div>
+
+<!-- POPUP FINAL -->
 <div id="popup">
     <div class="contenido">
-        <h2>Juego finalizado</h2>
-        <button onclick="cerrarPopup()">Nueva ronda</button>
+        <h2 id="popupText"></h2>
+        <button onclick="finalizarRonda()">Nueva ronda</button>
+        <button style="background:#aaa" onclick="volverMenu()">Volver al menú</button>
     </div>
 </div>
 
 <script>
+/* ---------- CARGAR PALABRAS ---------- */
 let lugares = [];
-
-// Cargar archivo de palabras
 fetch("palabras.txt")
     .then(r => r.text())
-    .then(t => {
-        lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
-    });
+    .then(t => lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0));
 
-let totalPlayers = 0;
-let spies = 0;
+/* ---------- VARIABLES GENERALES ---------- */
 let secretWord = "";
 let roles = [];
-let currentPlayer = 1;
-let showing = false;
+let current = 1;
 
-function iniciarJuego() {
-    totalPlayers = parseInt(document.getElementById("jugadores").value);
-    spies = parseInt(document.getElementById("espias").value);
+/* ---------- MENÚ ---------- */
+function irRapido() {
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("configRapido").classList.remove("hidden");
+}
 
-    if (spies >= totalPlayers) {
-        alert("Los espías deben ser menos que los jugadores.");
-        return;
-    }
+function irPersonalizado() {
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("configNombres").classList.remove("hidden");
+}
 
-    if (lugares.length === 0) {
-        alert("Error: palabras.txt está vacío o no cargó.");
-        return;
-    }
+function volverMenu() {
+    location.reload();
+}
+
+/* ===========================================================
+                ⭐ MODO RÁPIDO ⭐
+===========================================================*/
+function iniciarJuegoRapido() {
+    let jugadores = parseInt(document.getElementById("jugadores").value);
+    let espias = parseInt(document.getElementById("espias").value);
+
+    if (espias >= jugadores) return alert("Los espías deben ser menos.");
+
+    if (lugares.length === 0) return alert("Error cargando palabras.");
 
     secretWord = lugares[Math.floor(Math.random() * lugares.length)];
 
-    // Asignar roles
-    roles = Array(totalPlayers).fill("Ciudadano");
-    let asignados = 0;
+    roles = Array(jugadores).fill("Ciudadano");
 
-    while (asignados < spies) {
-        let r = Math.floor(Math.random() * totalPlayers);
-        if (roles[r] === "Ciudadano") {
-            roles[r] = "Espía";
+    let asignados = 0;
+    while (asignados < espias) {
+        let pos = Math.floor(Math.random() * jugadores);
+        if (roles[pos] === "Ciudadano") {
+            roles[pos] = "Espía";
             asignados++;
         }
     }
 
-    currentPlayer = 1;
-    showing = false;
+    current = 1;
 
-    document.getElementById("config").style.display = "none";
-    document.getElementById("card").style.display = "block";
+    document.getElementById("configRapido").classList.add("hidden");
+    document.getElementById("cardRapido").classList.remove("hidden");
 
-    updateCard();
+    updateCardRapido();
 }
 
-function updateCard() {
-    document.getElementById("playerInfo").innerText = "Jugador " + currentPlayer;
+function updateCardRapido() {
+    document.getElementById("playerInfo").innerText = "Jugador " + current;
     document.getElementById("roleText").innerText = "";
-    document.getElementById("roleText").classList.remove("mostrar");
     document.getElementById("toggleBtn").innerText = "Ver rol";
-    showing = false;
 }
 
-function toggleRole() {
-    let roleText = document.getElementById("roleText");
+function toggleRoleRapido() {
+    let text = document.getElementById("roleText");
+    if (text.innerText === "") {
+        text.innerHTML =
+            roles[current - 1] === "Espía"
+            ? `<span class="spy-icon">🕵️</span>ESPÍA`
+            : secretWord;
 
-    if (!showing) {
-        if (roles[currentPlayer - 1] === "Espía") {
-            roleText.innerHTML = `<span class="spy-icon">🕵️</span>ESPÍA`;
-        } else {
-            roleText.innerText = secretWord;
-        }
-
-        roleText.classList.add("mostrar");
-        showing = true;
         document.getElementById("toggleBtn").innerText = "Ocultar";
 
     } else {
-        roleText.innerText = "";
-        roleText.classList.remove("mostrar");
-        showing = false;
+        text.innerText = "";
         document.getElementById("toggleBtn").innerText = "Ver rol";
     }
 }
 
-function nextPlayer() {
-    currentPlayer++;
+function nextPlayerRapido() {
+    current++;
+    if (current > roles.length) {
+        document.getElementById("popupText").innerText = "¡Ronda finalizada!";
+        document.getElementById("popup").style.display = "flex";
+        return;
+    }
+    updateCardRapido();
+}
 
-    if (currentPlayer > totalPlayers) {
+/* ===========================================================
+                ⭐ MODO PERSONALIZADO ⭐
+===========================================================*/
+let nombres = [];
+let rolesPersonal = [];
+let currentPersonal = 0;
+
+function agregarNombre() {
+    let input = document.getElementById("nombreInput");
+    let nombre = input.value.trim();
+
+    if (nombre.length < 1) return;
+
+    nombres.push(nombre);
+    input.value = "";
+
+    renderNombres();
+}
+
+function renderNombres() {
+    let lista = document.getElementById("listaNombres");
+    lista.innerHTML = "";
+    nombres.forEach(n => {
+        lista.innerHTML += `<li>• ${n}</li>`;
+    });
+}
+
+function iniciarJuegoPersonalizado() {
+    if (nombres.length < 3) return alert("Mínimo 3 jugadores.");
+
+    let espias = parseInt(document.getElementById("espiasPersonal").value);
+    if (espias >= nombres.length) return alert("Deben ser menos espías.");
+
+    secretWord = lugares[Math.floor(Math.random() * lugares.length)];
+
+    rolesPersonal = Array(nombres.length).fill("Ciudadano");
+
+    let a = 0;
+    while (a < espias) {
+        let r = Math.floor(Math.random() * nombres.length);
+        if (rolesPersonal[r] === "Ciudadano") {
+            rolesPersonal[r] = "Espía";
+            a++;
+        }
+    }
+
+    currentPersonal = 0;
+
+    document.getElementById("configNombres").classList.add("hidden");
+    document.getElementById("cardPersonal").classList.remove("hidden");
+
+    updateCardPersonal();
+}
+
+function updateCardPersonal() {
+    document.getElementById("nombreActual").innerText = nombres[currentPersonal];
+    document.getElementById("roleTextPersonal").innerText = "";
+}
+
+function toggleRolePersonal() {
+    let text = document.getElementById("roleTextPersonal");
+
+    if (text.innerText === "") {
+        text.innerHTML =
+            rolesPersonal[currentPersonal] === "Espía"
+            ? `<span class="spy-icon">🕵️</span>ESPÍA`
+            : secretWord;
+    } else {
+        text.innerText = "";
+    }
+}
+
+function nextPlayerPersonal() {
+    currentPersonal++;
+
+    if (currentPersonal >= nombres.length) {
+        let elegido = nombres[Math.floor(Math.random() * nombres.length)];
+        document.getElementById("popupText").innerText =
+            `Comienza preguntando: ${elegido}`;
         document.getElementById("popup").style.display = "flex";
         return;
     }
 
-    updateCard();
+    updateCardPersonal();
 }
 
-function cerrarPopup() {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("card").style.display = "none";
-    document.getElementById("config").style.display = "block";
+/* ---------- FINALIZAR ---------- */
+function finalizarRonda() {
+    location.reload();
 }
 </script>
 
