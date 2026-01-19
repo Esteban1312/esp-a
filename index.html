@@ -98,6 +98,19 @@
         margin-bottom: 8px;
     }
 
+    /* Interruptor */
+    .switch {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        justify-content: flex-start;
+    }
+    .switch input {
+        width: auto;
+    }
+
     #popup {
         position: fixed;
         top: 0; left: 0;
@@ -136,6 +149,11 @@
 <div class="panel hidden" id="configRapido">
     <h2>Modo Rápido</h2>
 
+    <div class="switch">
+        <label><b>📖 Modo Bíblico</b></label>
+        <input type="checkbox" id="biblicoRapido">
+    </div>
+
     <label>Jugadores</label>
     <input type="number" id="jugadores" min="3" value="5">
 
@@ -158,6 +176,11 @@
 <!-- MODO PERSONALIZADO -->
 <div class="panel hidden" id="configNombres">
     <h2>Modo Personalizado</h2>
+
+    <div class="switch">
+        <label><b>📖 Modo Bíblico</b></label>
+        <input type="checkbox" id="biblicoPersonal">
+    </div>
 
     <label>Nombre del jugador</label>
     <input type="text" id="nombreInput">
@@ -193,8 +216,6 @@
 
 <script>
 
-/* ======= VARIABLES ======= */
-
 let lugares = [];
 let secretWord = "";
 let roles = [];
@@ -206,7 +227,7 @@ let currentPersonal = 0;
 
 let modoActual = ""; // "rapido" o "personalizado"
 
-/* ======= MENÚ ======= */
+/* ================= MENÚ ================= */
 
 function irRapido() {
     modoActual = "rapido";
@@ -224,16 +245,23 @@ function volverMenu() {
     location.reload();
 }
 
+/* =============== FUNCIÓN GENERAL PARA CARGAR PALABRAS =============== */
+
+function cargarLista(biblico) {
+    let archivo = biblico ? "palabras_biblia.txt" : "palabras.txt";
+    return fetch(archivo).then(r => r.text());
+}
+
 /* ===========================================================
-                ⭐ MODO RÁPIDO
+                ⭐ MODO RÁPIDO ⭐
 ===========================================================*/
 
 function iniciarJuegoRapido() {
 
-    fetch("palabras.txt")
-        .then(r => r.text())
-        .then(t => {
+    const biblico = document.getElementById("biblicoRapido").checked;
 
+    cargarLista(biblico)
+        .then(t => {
             lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
 
             let jugadores = parseInt(document.getElementById("jugadores").value);
@@ -299,18 +327,16 @@ function nextPlayerRapido() {
 }
 
 /* ===========================================================
-                ⭐ MODO PERSONALIZADO (ARREGLADO)
+                ⭐ MODO PERSONALIZADO ⭐
 ===========================================================*/
 
 function agregarNombre() {
     let input = document.getElementById("nombreInput");
     let nombre = input.value.trim();
-
-    if (nombre.length < 1) return;
+    if (!nombre) return;
 
     nombres.push(nombre);
     input.value = "";
-
     renderNombres();
 }
 
@@ -323,13 +349,15 @@ function renderNombres() {
 }
 
 function iniciarJuegoPersonalizado() {
+
     if (nombres.length < 3) return alert("Mínimo 3 jugadores.");
 
     let espias = parseInt(document.getElementById("espiasPersonal").value);
     if (espias >= nombres.length) return alert("Deben ser menos espías.");
 
-    fetch("palabras.txt")
-        .then(r => r.text())
+    const biblico = document.getElementById("biblicoPersonal").checked;
+
+    cargarLista(biblico)
         .then(t => {
 
             lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
@@ -371,7 +399,6 @@ function toggleRolePersonal() {
             : secretWord;
 
         text.classList.add("mostrar");
-
     } else {
         text.classList.remove("mostrar");
         text.innerText = "";
@@ -392,24 +419,19 @@ function nextPlayerPersonal() {
     updateCardPersonal();
 }
 
-/* ===========================================================
-                ⭐ NUEVA RONDA — SIN IR AL MENÚ ⭐
-===========================================================*/
+/* ========================== NUEVA RONDA ========================== */
 
 function nuevaRonda() {
-
     document.getElementById("popup").style.display = "none";
 
-    if (modoActual === "rapido") {
-        iniciarJuegoRapido();
-    } else {
-        iniciarJuegoPersonalizado();
-    }
+    if (modoActual === "rapido") iniciarJuegoRapido();
+    else iniciarJuegoPersonalizado();
 }
 
 </script>
 
 </body>
 </html>
+
 
 
