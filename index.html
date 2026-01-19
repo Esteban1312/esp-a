@@ -33,7 +33,6 @@
         margin-top: 20px;
     }
 
-    /* Contenedores minimalistas */
     .panel {
         background: #ffffff;
         padding: 22px;
@@ -81,7 +80,7 @@
 
     .hidden { display: none !important; }
 
-    #roleText {
+    #roleText, #roleTextPersonal {
         min-height: 40px;
         margin: 18px 0;
         font-size: 24px;
@@ -90,14 +89,15 @@
         transition: opacity 0.25s;
     }
 
-    #roleText.mostrar { opacity: 1; }
+    #roleText.mostrar, #roleTextPersonal.mostrar {
+        opacity: 1;
+    }
 
     .spy-icon {
         font-size: 48px;
         margin-bottom: 8px;
     }
 
-    /* Popup */
     #popup {
         position: fixed;
         top: 0; left: 0;
@@ -192,18 +192,20 @@
 </div>
 
 <script>
-/* ---------- CARGAR PALABRAS ---------- */
-let lugares = [];
-fetch("palabras.txt")
-    .then(r => r.text())
-    .then(t => lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0));
 
-/* ---------- VARIABLES GENERALES ---------- */
+/* ======= VARIABLES ======= */
+
+let lugares = [];
 let secretWord = "";
 let roles = [];
 let current = 1;
 
-/* ---------- MENÚ ---------- */
+let nombres = [];
+let rolesPersonal = [];
+let currentPersonal = 0;
+
+/* ======= MENÚ ======= */
+
 function irRapido() {
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("configRapido").classList.remove("hidden");
@@ -219,14 +221,16 @@ function volverMenu() {
 }
 
 /* ===========================================================
-                ⭐ MODO RÁPIDO ⭐
+                ⭐ MODO RÁPIDO - ARREGLADO ⭐
 ===========================================================*/
+
 function iniciarJuegoRapido() {
 
-    // Asegurar que las palabras estén cargadas ANTES de iniciar
+    // Cargar palabras SIEMPRE antes de iniciar
     fetch("palabras.txt")
         .then(r => r.text())
         .then(t => {
+
             lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
 
             let jugadores = parseInt(document.getElementById("jugadores").value);
@@ -257,33 +261,6 @@ function iniciarJuegoRapido() {
         })
         .catch(() => alert("No se pudo cargar palabras.txt"));
 }
-    let jugadores = parseInt(document.getElementById("jugadores").value);
-    let espias = parseInt(document.getElementById("espias").value);
-
-    if (espias >= jugadores) return alert("Los espías deben ser menos.");
-
-    if (lugares.length === 0) return alert("Error cargando palabras.");
-
-    secretWord = lugares[Math.floor(Math.random() * lugares.length)];
-
-    roles = Array(jugadores).fill("Ciudadano");
-
-    let asignados = 0;
-    while (asignados < espias) {
-        let pos = Math.floor(Math.random() * jugadores);
-        if (roles[pos] === "Ciudadano") {
-            roles[pos] = "Espía";
-            asignados++;
-        }
-    }
-
-    current = 1;
-
-    document.getElementById("configRapido").classList.add("hidden");
-    document.getElementById("cardRapido").classList.remove("hidden");
-
-    updateCardRapido();
-}
 
 function updateCardRapido() {
     document.getElementById("playerInfo").innerText = "Jugador " + current;
@@ -293,15 +270,18 @@ function updateCardRapido() {
 
 function toggleRoleRapido() {
     let text = document.getElementById("roleText");
+
     if (text.innerText === "") {
         text.innerHTML =
             roles[current - 1] === "Espía"
             ? `<span class="spy-icon">🕵️</span>ESPÍA`
             : secretWord;
 
+        text.classList.add("mostrar");
         document.getElementById("toggleBtn").innerText = "Ocultar";
 
     } else {
+        text.classList.remove("mostrar");
         text.innerText = "";
         document.getElementById("toggleBtn").innerText = "Ver rol";
     }
@@ -320,9 +300,6 @@ function nextPlayerRapido() {
 /* ===========================================================
                 ⭐ MODO PERSONALIZADO ⭐
 ===========================================================*/
-let nombres = [];
-let rolesPersonal = [];
-let currentPersonal = 0;
 
 function agregarNombre() {
     let input = document.getElementById("nombreInput");
@@ -350,25 +327,33 @@ function iniciarJuegoPersonalizado() {
     let espias = parseInt(document.getElementById("espiasPersonal").value);
     if (espias >= nombres.length) return alert("Deben ser menos espías.");
 
-    secretWord = lugares[Math.floor(Math.random() * lugares.length)];
+    // Cargar palabras antes de iniciar
+    fetch("palabras.txt")
+        .then(r => r.text())
+        .then(t => {
 
-    rolesPersonal = Array(nombres.length).fill("Ciudadano");
+            lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
 
-    let a = 0;
-    while (a < espias) {
-        let r = Math.floor(Math.random() * nombres.length);
-        if (rolesPersonal[r] === "Ciudadano") {
-            rolesPersonal[r] = "Espía";
-            a++;
-        }
-    }
+            secretWord = lugares[Math.sqrt(Math.random() * lugares.length)];
 
-    currentPersonal = 0;
+            rolesPersonal = Array(nombres.length).fill("Ciudadano");
 
-    document.getElementById("configNombres").classList.add("hidden");
-    document.getElementById("cardPersonal").classList.remove("hidden");
+            let a = 0;
+            while (a < espias) {
+                let r = Math.floor(Math.random() * nombres.length);
+                if (rolesPersonal[r] === "Ciudadano") {
+                    rolesPersonal[r] = "Espía";
+                    a++;
+                }
+            }
 
-    updateCardPersonal();
+            currentPersonal = 0;
+
+            document.getElementById("configNombres").classList.add("hidden");
+            document.getElementById("cardPersonal").classList.remove("hidden");
+
+            updateCardPersonal();
+        });
 }
 
 function updateCardPersonal() {
@@ -384,7 +369,11 @@ function toggleRolePersonal() {
             rolesPersonal[currentPersonal] === "Espía"
             ? `<span class="spy-icon">🕵️</span>ESPÍA`
             : secretWord;
+
+        text.classList.add("mostrar");
+
     } else {
+        text.classList.remove("mostrar");
         text.innerText = "";
     }
 }
@@ -403,13 +392,15 @@ function nextPlayerPersonal() {
     updateCardPersonal();
 }
 
-/* ---------- FINALIZAR ---------- */
+/* ============================================ */
 function finalizarRonda() {
     location.reload();
 }
+
 </script>
 
 </body>
 </html>
+
 
 
