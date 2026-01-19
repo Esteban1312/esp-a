@@ -186,7 +186,7 @@
 <div id="popup">
     <div class="contenido">
         <h2 id="popupText"></h2>
-        <button onclick="finalizarRonda()">Nueva ronda</button>
+        <button onclick="nuevaRonda()">Nueva ronda</button>
         <button style="background:#aaa" onclick="volverMenu()">Volver al menú</button>
     </div>
 </div>
@@ -204,14 +204,18 @@ let nombres = [];
 let rolesPersonal = [];
 let currentPersonal = 0;
 
+let modoActual = ""; // "rapido" o "personalizado"
+
 /* ======= MENÚ ======= */
 
 function irRapido() {
+    modoActual = "rapido";
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("configRapido").classList.remove("hidden");
 }
 
 function irPersonalizado() {
+    modoActual = "personalizado";
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("configNombres").classList.remove("hidden");
 }
@@ -221,12 +225,11 @@ function volverMenu() {
 }
 
 /* ===========================================================
-                ⭐ MODO RÁPIDO - ARREGLADO ⭐
+                ⭐ MODO RÁPIDO
 ===========================================================*/
 
 function iniciarJuegoRapido() {
 
-    // Cargar palabras SIEMPRE antes de iniciar
     fetch("palabras.txt")
         .then(r => r.text())
         .then(t => {
@@ -237,7 +240,6 @@ function iniciarJuegoRapido() {
             let espias = parseInt(document.getElementById("espias").value);
 
             if (espias >= jugadores) return alert("Los espías deben ser menos.");
-            if (lugares.length === 0) return alert("Error cargando palabras.");
 
             secretWord = lugares[Math.floor(Math.random() * lugares.length)];
 
@@ -258,8 +260,7 @@ function iniciarJuegoRapido() {
             document.getElementById("cardRapido").classList.remove("hidden");
 
             updateCardRapido();
-        })
-        .catch(() => alert("No se pudo cargar palabras.txt"));
+        });
 }
 
 function updateCardRapido() {
@@ -298,7 +299,7 @@ function nextPlayerRapido() {
 }
 
 /* ===========================================================
-                ⭐ MODO PERSONALIZADO ⭐
+                ⭐ MODO PERSONALIZADO (ARREGLADO)
 ===========================================================*/
 
 function agregarNombre() {
@@ -327,14 +328,13 @@ function iniciarJuegoPersonalizado() {
     let espias = parseInt(document.getElementById("espiasPersonal").value);
     if (espias >= nombres.length) return alert("Deben ser menos espías.");
 
-    // Cargar palabras antes de iniciar
     fetch("palabras.txt")
         .then(r => r.text())
         .then(t => {
 
             lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
 
-            secretWord = lugares[Math.sqrt(Math.random() * lugares.length)];
+            secretWord = lugares[Math.floor(Math.random() * lugares.length)];
 
             rolesPersonal = Array(nombres.length).fill("Ciudadano");
 
@@ -392,15 +392,24 @@ function nextPlayerPersonal() {
     updateCardPersonal();
 }
 
-/* ============================================ */
-function finalizarRonda() {
-    location.reload();
+/* ===========================================================
+                ⭐ NUEVA RONDA — SIN IR AL MENÚ ⭐
+===========================================================*/
+
+function nuevaRonda() {
+
+    document.getElementById("popup").style.display = "none";
+
+    if (modoActual === "rapido") {
+        iniciarJuegoRapido();
+    } else {
+        iniciarJuegoPersonalizado();
+    }
 }
 
 </script>
 
 </body>
 </html>
-
 
 
