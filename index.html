@@ -5,87 +5,108 @@
 <title>Espía: Versión Lugares</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Fuente moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background: #eef2f3;
+        font-family: "Poppins", sans-serif;
+        background: #f4f6f8;
         margin: 0;
         padding: 0;
         text-align: center;
+        color: #222;
     }
 
-    /* Banner totalmente responsive */
+    /* Banner superior */
     #banner {
         width: 100%;
-        height: 180px;
+        height: 200px;
         object-fit: cover;
         display: block;
+        border-bottom-left-radius: 22px;
+        border-bottom-right-radius: 22px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
     h1 {
         font-size: 26px;
-        margin: 15px 0;
-        padding: 0 10px;
+        font-weight: 600;
+        margin: 20px 0;
     }
 
+    /* Tarjetas minimalistas */
     .panel {
-        background: white;
-        padding: 18px;
-        width: 90%;
-        max-width: 380px;
-        margin: 10px auto;
-        border-radius: 14px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+        background: #ffffff;
+        padding: 22px;
+        width: 92%;
+        max-width: 400px;
+        margin: 15px auto;
+        border-radius: 16px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.08);
     }
 
     label {
         display: block;
-        font-size: 18px;
-        margin-top: 10px;
+        font-size: 16px;
+        margin-top: 12px;
+        text-align: left;
+        font-weight: 500;
     }
 
     input {
-        margin-top: 8px;
+        margin-top: 6px;
         padding: 10px;
         width: 100%;
-        font-size: 18px;
-        border-radius: 8px;
-        border: 1px solid #bbb;
-        outline: none;
+        font-size: 17px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        background: #fdfdfd;
     }
 
+    /* Botones minimalistas */
     button {
         width: 100%;
         padding: 14px;
-        font-size: 18px;
-        margin-top: 12px;
-        background: #3498db;
+        font-size: 17px;
+        margin-top: 14px;
+        background: #1d9bf0;
         border: none;
         color: white;
-        border-radius: 10px;
+        border-radius: 12px;
         cursor: pointer;
+        transition: 0.25s;
     }
 
-    button:hover { background: #2980b9; }
-
-    #card {
-        display: none;
+    button:hover {
+        background: #0d8adf;
     }
+
+    #card { display: none; }
 
     #playerInfo {
         font-size: 22px;
-        margin-bottom: 10px;
+        font-weight: 600;
+        margin-bottom: 12px;
     }
 
+    /* Texto del rol */
     #roleText {
         min-height: 40px;
-        margin: 15px 0;
+        margin: 18px 0;
+        font-size: 24px;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.25s;
+    }
+
+    #roleText.mostrar {
+        opacity: 1;
     }
 
     .spy-icon {
         font-size: 48px;
-        display: block;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
     /* Popup final */
@@ -93,7 +114,7 @@
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
+        background: rgba(0,0,0,0.55);
         display: none;
         justify-content: center;
         align-items: center;
@@ -102,12 +123,18 @@
 
     #popup .contenido {
         background: white;
-        padding: 25px;
-        border-radius: 14px;
+        padding: 30px;
+        border-radius: 18px;
         width: 90%;
-        max-width: 300px;
+        max-width: 330px;
         text-align: center;
-        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        animation: popupIn 0.25s ease;
+    }
+
+    @keyframes popupIn {
+        from { transform: scale(0.85); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
     }
 
     @media (min-height: 750px) {
@@ -115,6 +142,7 @@
     }
 </style>
 </head>
+
 <body>
 
 <!-- Banner -->
@@ -122,12 +150,12 @@
 
 <h1>Espía: Versión Lugares</h1>
 
-<!-- Panel de inicio -->
+<!-- Panel de configuración -->
 <div class="panel" id="config">
-    <label><b>Jugadores</b></label>
+    <label>Jugadores</label>
     <input type="number" id="jugadores" min="3" value="5">
 
-    <label><b>Espías</b></label>
+    <label>Espías</label>
     <input type="number" id="espias" min="1" value="1">
 
     <button onclick="iniciarJuego()">Iniciar ronda</button>
@@ -137,6 +165,7 @@
 <div class="panel" id="card">
     <h2 id="playerInfo"></h2>
     <p id="roleText"></p>
+
     <button id="toggleBtn" onclick="toggleRole()">Ver rol</button>
     <button onclick="nextPlayer()">Siguiente jugador</button>
 </div>
@@ -152,6 +181,7 @@
 <script>
 let lugares = [];
 
+// Cargar archivo de palabras
 fetch("palabras.txt")
     .then(r => r.text())
     .then(t => {
@@ -161,7 +191,7 @@ fetch("palabras.txt")
 let totalPlayers = 0;
 let spies = 0;
 let secretWord = "";
-let playerRoles = [];  
+let roles = [];
 let currentPlayer = 1;
 let showing = false;
 
@@ -175,20 +205,21 @@ function iniciarJuego() {
     }
 
     if (lugares.length === 0) {
-        alert("Error: palabras.txt está vacío o no se cargó.");
+        alert("Error: palabras.txt está vacío o no cargó.");
         return;
     }
 
     secretWord = lugares[Math.floor(Math.random() * lugares.length)];
 
-    playerRoles = Array(totalPlayers).fill("Ciudadano");
+    // Asignar roles
+    roles = Array(totalPlayers).fill("Ciudadano");
+    let asignados = 0;
 
-    let espiasAsignados = 0;
-    while (espiasAsignados < spies) {
-        let idx = Math.floor(Math.random() * totalPlayers);
-        if (playerRoles[idx] === "Ciudadano") {
-            playerRoles[idx] = "Espía";
-            espiasAsignados++;
+    while (asignados < spies) {
+        let r = Math.floor(Math.random() * totalPlayers);
+        if (roles[r] === "Ciudadano") {
+            roles[r] = "Espía";
+            asignados++;
         }
     }
 
@@ -204,22 +235,28 @@ function iniciarJuego() {
 function updateCard() {
     document.getElementById("playerInfo").innerText = "Jugador " + currentPlayer;
     document.getElementById("roleText").innerText = "";
+    document.getElementById("roleText").classList.remove("mostrar");
     document.getElementById("toggleBtn").innerText = "Ver rol";
     showing = false;
 }
 
 function toggleRole() {
+    let roleText = document.getElementById("roleText");
+
     if (!showing) {
-        let role = playerRoles[currentPlayer - 1];
-        if (role === "Espía") {
-            document.getElementById("roleText").innerHTML = `<span class="spy-icon">🕵️</span> ESPÍA`;
+        if (roles[currentPlayer - 1] === "Espía") {
+            roleText.innerHTML = `<span class="spy-icon">🕵️</span>ESPÍA`;
         } else {
-            document.getElementById("roleText").innerText = secretWord;
+            roleText.innerText = secretWord;
         }
+
+        roleText.classList.add("mostrar");
         showing = true;
         document.getElementById("toggleBtn").innerText = "Ocultar";
+
     } else {
-        document.getElementById("roleText").innerText = "";
+        roleText.innerText = "";
+        roleText.classList.remove("mostrar");
         showing = false;
         document.getElementById("toggleBtn").innerText = "Ver rol";
     }
@@ -227,10 +264,12 @@ function toggleRole() {
 
 function nextPlayer() {
     currentPlayer++;
+
     if (currentPlayer > totalPlayers) {
         document.getElementById("popup").style.display = "flex";
         return;
     }
+
     updateCard();
 }
 
