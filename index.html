@@ -222,6 +222,41 @@ function volverMenu() {
                 ⭐ MODO RÁPIDO ⭐
 ===========================================================*/
 function iniciarJuegoRapido() {
+
+    // Asegurar que las palabras estén cargadas ANTES de iniciar
+    fetch("palabras.txt")
+        .then(r => r.text())
+        .then(t => {
+            lugares = t.split("\n").map(w => w.trim()).filter(w => w.length > 0);
+
+            let jugadores = parseInt(document.getElementById("jugadores").value);
+            let espias = parseInt(document.getElementById("espias").value);
+
+            if (espias >= jugadores) return alert("Los espías deben ser menos.");
+            if (lugares.length === 0) return alert("Error cargando palabras.");
+
+            secretWord = lugares[Math.floor(Math.random() * lugares.length)];
+
+            roles = Array(jugadores).fill("Ciudadano");
+
+            let asignados = 0;
+            while (asignados < espias) {
+                let pos = Math.floor(Math.random() * jugadores);
+                if (roles[pos] === "Ciudadano") {
+                    roles[pos] = "Espía";
+                    asignados++;
+                }
+            }
+
+            current = 1;
+
+            document.getElementById("configRapido").classList.add("hidden");
+            document.getElementById("cardRapido").classList.remove("hidden");
+
+            updateCardRapido();
+        })
+        .catch(() => alert("No se pudo cargar palabras.txt"));
+}
     let jugadores = parseInt(document.getElementById("jugadores").value);
     let espias = parseInt(document.getElementById("espias").value);
 
